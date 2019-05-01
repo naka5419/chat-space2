@@ -31,7 +31,7 @@
 |Column|Type|Options|
 |------|----|-------|
 |email|string|null: false, unique: true|
-|name|string|null: false|
+|name|string|null: false|add_index
 
 ### Association
 - has_many :users_groups
