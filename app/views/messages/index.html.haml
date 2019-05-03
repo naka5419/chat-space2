@@ -1,0 +1,36 @@
+.outer
+
+  = render 'shared/side_bar'
+
+  .main
+    .header
+      .left-header
+
+        .left-header__title
+          グループ名
+
+        %ul.left-header__members
+          MEMBERS :
+          %li.member
+            メンバー名
+          %li.member
+            メンバー名
+          %li.member
+            メンバー名
+
+      .right-header
+        .right-header__button
+          Edit
+
+
+    .contents
+      = render 'messages/message' 
+
+    .footer
+      %form
+        %input.footer__message'
+        .footer__cell
+          %label.footer__cell__image
+            = fa_icon 'picture-o', class: 'icon'
+            %input.hidden{type: 'file'}
+        %input.footer__submit{type: 'submit', value: 'Send'}
