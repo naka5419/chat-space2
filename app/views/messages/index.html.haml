@@ -7,29 +7,30 @@
       .left-header
 
         .left-header__title
-          グループ名
+          = @group.name
 
         %ul.left-header__members
           MEMBERS :
-          %li.member
-            メンバー名
-          %li.member
-            メンバー名
-          %li.member
-            メンバー名
+          - @group.users.each do |user|
+            %li.member
+              = user.name
 
       .right-header
         %a.right-header__button{href: 'edit'} Edit
 
 
-    .contents
-      = render 'messages/message' 
+    .contents 
+      = render @messages 
 
     .footer
-      %form
-        %input.footer__message'
+      = form_for [@group, @message] do |f|
+
+        = f.text_field :content, class: 'footer__message', placeholder: 'type a message'
+
         .footer__cell
-          %label.footer__cell__image
-            = fa_icon 'picture-o', class: 'icon'
-            %input.hidden{type: 'file'}
-        %input.footer__submit{type: 'submit', value: 'Send'}
+          = f.label :image, class: 'footer__cell__image' do
+            %i.fa.fa-image
+              = f.file_field :image, class: 'hidden'
+
+        = f.submit "Send", class: 'footer__submit'
+
