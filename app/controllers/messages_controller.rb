@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
     @messages = @group.messages.includes(:user)
   end
 
-	def create
+  def create
 	  @message = @group.messages.new(message_params)
     if @message.save
       respond_to do |format|
