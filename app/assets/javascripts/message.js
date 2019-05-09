@@ -1,6 +1,6 @@
 $(function() {
 
-  function nameDateHtml(message) {
+  function buildMessegeNameDateHTML(message) {
     var html1 = `
       <div class='up-content'>
         <div class='up-content__user-name'>
@@ -13,7 +13,7 @@ $(function() {
     return html1
   }
 
-  function messageHtml(message) {
+  function buildMessageMessageHTML(message) {
     var html2 = `
       <div class='low-content'>
         <p class="low-content__message">
@@ -23,7 +23,7 @@ $(function() {
     return html2
   }
 
-  function imageHtml(message) {
+  function buildMessageImageHTML(message) {
     var html3 = `
       <div class='low-content'>
         <p class="low-content__image">
@@ -50,15 +50,15 @@ $(function() {
 
 
     .done(function(data) {
-      var html1 = nameDateHtml(data);
+    
       if ((data.content) && (data.image.url)){
-        var html = nameDateHtml(data) + messageHtml(data) + imageHtml(data)
+        var html = buildMessegeNameDateHTML(data) + buildMessageMessageHTML(data) + buildMessageImageHTML(data)
       }
       else if (data.content){
-        var html =  nameDateHtml(data) + messageHtml(data)
+        var html =  buildMessegeNameDateHTML(data) + buildMessageMessageHTML(data)
       }
       else if (data.image.url){
-        var html = nameDateHtml(data) + imageHtml(data)
+        var html = buildMessegeNameDateHTML(data) + buildMessageMessageHTML(data)
       }
 
 
