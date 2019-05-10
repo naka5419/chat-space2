@@ -58,7 +58,7 @@ $(document).on('turbolinks:load', function() {
         })
         }
       else{
-        $('.chat-group-user__btn').parent().remove();
+        return
       }
   });
 
