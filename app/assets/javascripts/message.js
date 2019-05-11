@@ -1,37 +1,60 @@
 $(function() {
 
-  function buildMessegeNameDateHTML(message) {
-    var html1 = `
-      <div class='up-content'>
-        <div class='up-content__user-name'>
-          ${ message.user_name }
+  var buildMessageHTML = function(message) {
+    message.content ? tempContent = message.content : tempContent = ""
+    message.image.url ? tempImage = message.image.url : tempImage = ""     
+      var html = `
+      <div class="content" data-message-id= ${message.id} >
+        <div class="up-content">
+          <div class="up-content__user-name">
+            ${ message.user_name }
+          </div>
+          <div class="up-content__date">
+            ${ message.created_at }
+          </div>
         </div>
-        <div class='up-content__date'>
-          ${ message.created_at }
+        <div class="low-content">
+          <p class="low-content__message">
+            ${ tempContent }
+          </p>
+          <img src="${ tempImage }" class="low-content__image" >
         </div>
       </div>`
-    return html1
-  }
+    return html;
+  };
 
-  function buildMessageMessageHTML(message) {
-    var html2 = `
-      <div class='low-content'>
-        <p class="low-content__message">
-          ${ message.content }
-        </p>
-      </div>`
-    return html2
-  }
 
-  function buildMessageImageHTML(message) {
-    var html3 = `
-      <div class='low-content'>
-        <p class="low-content__image">
-          <img src="${ message.image.url } ">
-        </p>
-      </div>`
-    return html3
-  }
+  var reloadMessages = function() {
+    var last_message_id = $('.content:last').data('messageId');
+    var urlStr = location.pathname;
+    newUrlStr = urlStr.replace(/messages/, 'api/messages');
+
+    $.ajax({
+      url:  newUrlStr ,
+      type: 'get',
+      dataType: 'json',
+      data: {id: last_message_id}
+    })
+
+    .done(function(messages){
+      if (messages.length != 0){
+        var insertHTML = '';
+        messages.forEach(function(message){
+          insertHTML +=  buildMessageHTML(message);
+          $('.contents').append(insertHTML);
+
+          $('.contents').animate({
+          scrollTop: $('.contents').prop('scrollHeight')
+          }, 500);
+        });
+
+      };
+    })
+    .fail(function() {
+      console.log('error');
+    });
+
+  };
 
   $('#new_message').on('submit', function(e) {
     e.preventDefault();
@@ -48,34 +71,15 @@ $(function() {
       processData : false
     })
 
-
     .done(function(data) {
-    
-      if ((data.content) && (data.image.url)){
-        var html = buildMessegeNameDateHTML(data) + buildMessageMessageHTML(data) + buildMessageImageHTML(data)
-      }
-      else if (data.content){
-        var html =  buildMessegeNameDateHTML(data) + buildMessageMessageHTML(data)
-      }
-      else if (data.image.url){
-        var html = buildMessegeNameDateHTML(data) + buildMessageMessageHTML(data)
-      }
-
-
-      var html =
-        '<div class="content">' +
-          html +
-        '</div>';
-
-      $('.contents').append(html);
-
+      var messageHTML = buildMessageHTML(data);
+      $('.contents').append(messageHTML);
       $this.get(0).reset();
 
       $('.contents').animate({
-         scrollTop: $('.contents').prop('scrollHeight')
+          scrollTop: $('.contents').prop('scrollHeight')
       }, 500);
     })
-
 
     .fail(function() {
       alert('非同期通信に失敗しました');
@@ -84,5 +88,8 @@ $(function() {
     .always(function() {
     $(".footer__submit").prop("disabled", false);
     });
-  });
+
+  })
+  setInterval(reloadMessages, 5000);
+
 });
