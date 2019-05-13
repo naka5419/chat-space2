@@ -23,16 +23,19 @@ $(document).on('turbolinks:load', function() {
     member_list.append(html);
   }
 
+
+
   function toErrMsgHTML(msg) {
     var html = `
             <div class="chat-group-user clearfix">
               <p class="chat-group-user__name"> ${ msg } </p>
             </div>`
-    saveearch_list.append(html);
+    search_list.append(html)
   }
 
   $("#user-search-field").on("keyup", function() {
     var input = $("#user-search-field").val();
+    
       if (input.length != 0) {
         $.ajax({
           type: 'GET',
@@ -41,7 +44,8 @@ $(document).on('turbolinks:load', function() {
           dataType: 'json'
         })
 
-        .done(function(users){        
+        .done(function(users){  
+        console.log(users.length)        
           $("#user-search-result").empty();
           if (users.length !== 0) {
             users.forEach(function(user){
@@ -49,6 +53,7 @@ $(document).on('turbolinks:load', function() {
             });
           }
           else {
+            
             toErrMsgHTML("一致するユーザーが見つかりません");
           }
         })
@@ -63,6 +68,7 @@ $(document).on('turbolinks:load', function() {
   });
 
   $(document).on("click",".user-search-add", function(){
+  
     var userId = $(this).data('user-id');
     var userName = $(this).data('user-name');
     buildGroupUserHTML(userId,userName);

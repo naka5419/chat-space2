@@ -37,7 +37,7 @@ $(function() {
     })
 
     .done(function(messages){
-      if (messages.length != 0){
+    //if (messages.length != 0){
         var insertHTML = '';
         messages.forEach(function(message){
           insertHTML +=  buildMessageHTML(message);
@@ -48,11 +48,11 @@ $(function() {
           }, 500);
         });
 
-      };
+      // };
     })
-    .fail(function() {
-      alert('自動更新に失敗しました');
-    });
+    // .fail(function() {
+    //   alert('自動更新に失敗しました');
+    // });
 
   };
 
@@ -90,6 +90,11 @@ $(function() {
     });
 
   })
-  setInterval(reloadMessages, 5000);
 
+  $(window).on('load', function(){
+    if (document.URL.match("message")){
+      setInterval(reloadMessages, 5000);  
+    }
+  })
+  // setInterval(reloadMessages, 5000);    
 });
