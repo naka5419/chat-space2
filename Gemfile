@@ -8,7 +8,7 @@ end
 gem 'devise'
 gem 'carrierwave'
 gem 'mini_magick'
-
+gem 'fog-aws'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
