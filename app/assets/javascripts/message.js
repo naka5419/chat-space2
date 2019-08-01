@@ -93,8 +93,8 @@ $(function() {
 
   $(window).on('load', function(){
     if (document.URL.match("message")){
-      setInterval(reloadMessages, 5000);  
+      setInterval(reloadMessages, 5000);
     }
   })
-  // setInterval(reloadMessages, 50000);    
+  // setInterval(reloadMessages, 50000);
 });
